@@ -9,7 +9,7 @@ from xml.dom import minidom
 
 from .messages import MESSAGE_TYPES, UnknownMessage
 from .exceptions import ParseError, NeedParseError, NeedParamError, OfficialAPIError
-from .reply import TextReply, ImageReply, VoiceReply, VideoReply, MusicReply, Article, ArticleReply
+from .reply import TextReply, ImageReply, VoiceReply, VideoReply, MusicReply, Article, ArticleReply,TransferCustometer
 
 
 class WechatBasic(object):
@@ -117,6 +117,14 @@ class WechatBasic(object):
             'access_token_expires_at': self.__access_token_expires_at,
         }
 
+    def transfer_customer(self, content):
+        """
+        :param content: transfer content
+        :return: xml formate data
+        """
+        self._check_parse()
+        return TransferCustometer(message=self.__message, content=content).render()
+        
     def response_text(self, content):
         """
         将文字信息 content 组装为符合微信服务器要求的响应数据
