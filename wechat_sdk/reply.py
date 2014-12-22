@@ -21,6 +21,29 @@ class WechatReply(object):
     def render(self):
         raise NotImplementedError()
 
+class TransferCustometer(WechatReply):
+    """
+    transfer_customer_service
+    """
+    TEMPLATE = u"""
+    <xml>
+    <ToUserName><![CDATA[{target}]]></ToUserName>
+    <FromUserName><![CDATA[{source}]]></FromUserName>
+    <CreateTime>{time}</CreateTime>
+    <MsgType><![CDATA[transfer_customer_service]]></MsgType>
+    <Content><![CDATA[{content}]]></Content>
+    </xml>
+    """
+
+    def __init__(self, message, content):
+        """
+        :param message: WechatReplay
+        :param content: wechat content
+        """
+        super(TransferCustometer,self).__init__(message=message,content=content)
+
+    def render(self):
+        return TransferCustometer.TEMPLATE.format(**self._args)
 
 class TextReply(WechatReply):
     """
